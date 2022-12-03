@@ -16,7 +16,7 @@ public class ContactList {
     }
 
     public Person getContact(String name) {
-        Person temp = new Person(name.toLowerCase(), new ArrayList<>());
+        Person temp = new Person(name, new ArrayList<>());
         return contactList.getPerson(temp);
     }
 
@@ -27,8 +27,8 @@ public class ContactList {
         if (start.compareTo(end) >= 0) {
             throw new IllegalArgumentException();
         }
-        Person startP = new Person(start.toLowerCase(), new ArrayList<>());
-        Person endP = new Person(end.toLowerCase(), new ArrayList<>());
+        Person startP = new Person(start, new ArrayList<>());
+        Person endP = new Person(end, new ArrayList<>());
         return contactList.getPersonByRange(contactList.getRoot(), startP, endP);
         // use DFS on the tree and make sure to return once you've found the end bc it's exclusive
     }

@@ -224,11 +224,11 @@ public class BST<T extends Comparable<? super T>> {
             if (currNode == null) {
                 return;
             }
-            int value1 = startP.getName().compareTo(currNode.getName().toLowerCase());
+            int value1 = startP.getName().compareTo(currNode.getName());
             if (value1 < 0) {
                 getRangeHelper(currNode.getLeft(), outList, startP, endP);
             }
-            int value2 = endP.getName().compareTo(currNode.getName().toLowerCase());
+            int value2 = endP.getName().compareTo(currNode.getName());
             if (value1 <= 0 && value2 >= 0 ) {
                 outList.add(currNode.person);
             }

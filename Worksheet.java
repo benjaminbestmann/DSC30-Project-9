@@ -167,8 +167,10 @@ public class Worksheet {
         System.out.println(Arrays.toString(firstContact.fetchAllPhoneNumbers()));
 //        System.out.println("Delete test: "+ firstContact.deleteContact("Benny"));
 //        System.out.println(Arrays.toString(firstContact.fetchAllNames()));
-        // test: fetchAllNumbers, getContactByRange, getContact, getAllNames
+        // test: getContactByRange, getContact
 //        System.out.println(Arrays.toString(firstContact.fetchAllPhoneNumbers()));
         System.out.println(Arrays.toString(firstContact.getContactByRange("Arjun", "IbinaldO")));
+        System.out.println(Arrays.toString(firstContact.getContactByRange("Arjun", "Hillary")));
+        System.out.println(firstContact.getContact("Benny"));
     }
 }
