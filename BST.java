@@ -120,7 +120,7 @@ public class BST<T extends Comparable<? super T>> {
         public boolean addHelp(BSTNode current, BSTNode toAdd) {
             while (current != null) {
                 int value = current.person.getName().compareTo(toAdd.getName());
-                if (value < 0) {
+                if (value > 0) {
                     if (current.left == null) {
                         current.left = toAdd;
                         this.nelems++;
@@ -128,7 +128,7 @@ public class BST<T extends Comparable<? super T>> {
                     } else {
                         current = current.left;
                     }
-                } else if (value > 0) {
+                } else if (value < 0) {
                     if (current.right == null) {
                         current.right = toAdd;
                         this.nelems++;
@@ -280,7 +280,7 @@ public class BST<T extends Comparable<? super T>> {
                     }
                     this.nelems--;
                     return true; // found and removed
-                } else if (value < 0) {
+                } else if (value > 0) {
                     par = current;
                     current = current.left;
                 } else {

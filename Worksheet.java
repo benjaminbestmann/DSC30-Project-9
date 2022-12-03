@@ -152,8 +152,7 @@ public class Worksheet {
         testArr3.add("21");
         testArr3.add("223445");
         testArr3.add("11111");
-        testArr3.add("22222");
-        testArr3.add("33333");
+        testArr3.add("9112456711");
         Person Arjun = new Person("Arjun", testArr);
         Person Benny = new Person("Benny", testArr3);
         ContactList firstContact = new ContactList();
@@ -165,8 +164,11 @@ public class Worksheet {
         System.out.println("Duplicate test: " + firstContact.createContact(Benny));
         System.out.println("Duplicate test: " + firstContact.createContact(new Person("Hillary", testArr2)));
         System.out.println(Arrays.toString(firstContact.fetchAllNames()));
-        System.out.println("Delete test: "+ firstContact.deleteContact("Benny"));
-        System.out.println(Arrays.toString(firstContact.fetchAllNames()));
-
+        System.out.println(Arrays.toString(firstContact.fetchAllPhoneNumbers()));
+//        System.out.println("Delete test: "+ firstContact.deleteContact("Benny"));
+//        System.out.println(Arrays.toString(firstContact.fetchAllNames()));
+        // test: fetchAllNumbers, getContactByRange, getContact, getAllNames
+//        System.out.println(Arrays.toString(firstContact.fetchAllPhoneNumbers()));
+        System.out.println(Arrays.toString(firstContact.getContactByRange("Arjun", "IbinaldO")));
     }
 }
