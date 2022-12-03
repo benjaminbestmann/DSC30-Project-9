@@ -11,7 +11,7 @@ public class ContactList {
     }
 
     public boolean lookupContact(String name) {
-        Person temp = new Person(name.toLowerCase(), new ArrayList<>());
+        Person temp = new Person(name, new ArrayList<>());
         return this.contactList.getPerson(temp) != null;
     }
 
@@ -24,8 +24,8 @@ public class ContactList {
         if (start == null || end == null) {
             throw new IllegalArgumentException();
         }
-        if (start.compareTo(end) > 0) {
-            return null;
+        if (start.compareTo(end) >= 0) {
+            throw new IllegalArgumentException();
         }
         Person startP = new Person(start.toLowerCase(), new ArrayList<>());
         Person endP = new Person(end.toLowerCase(), new ArrayList<>());
@@ -34,7 +34,7 @@ public class ContactList {
     }
 
     public boolean deleteContact(String name) {
-        Person temp = new Person(name.toLowerCase(), new ArrayList<>());
+        Person temp = new Person(name, new ArrayList<>());
         return this.contactList.delete(temp);
     }
 

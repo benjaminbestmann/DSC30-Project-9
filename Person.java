@@ -31,13 +31,15 @@ public class Person {
     }
 
     public boolean deletePhoneNumber(String pn) {
-        if (this.numbersList.size() < 2) {
-            throw new IllegalArgumentException();
-        }
-        if (!this.numbersList.contains(pn)) {
+        if (this.numbersList.contains(pn)) {
+            if (this.numbersList.size() <= 1) {
+                throw new IllegalArgumentException();
+            } else {
+                this.numbersList.remove(pn);
+                return true;
+            }
+        } else {
             return false;
         }
-        this.numbersList.remove(pn);
-        return true;
     }
 }

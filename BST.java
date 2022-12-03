@@ -104,9 +104,6 @@ public class BST<T extends Comparable<? super T>> {
         }
 
         public boolean insert(Person person) {
-            /* insert a Node with a given key and an empty LL for its data
-             * returns false if there exists a previous node with the same key
-             * throws an exception if the key is null*/
             if (person == null) {
                 throw new NullPointerException();
             }
@@ -116,31 +113,36 @@ public class BST<T extends Comparable<? super T>> {
                 this.nelems++;
                 return true;
             }
-            return addHelp(this.root, person);
+            return addHelp(this.root, person, false);
         }
-        public boolean addHelp(BSTNode currRoot, Person person) {
+        public boolean addHelp(BSTNode currRoot, Person person, boolean status) {
             int value = person.name.compareTo(currRoot.getName());
-            if (value == 0) { // Duplicate
-                return false;
-            }
+//            if (value == 0) { // Duplicate
+//                status = false;
+//            }
             if (value < 0) {
                 if (currRoot.getLeft() == null) {
                     currRoot.setleft(new BSTNode(null, null, person));
                     this.nelems++;
-                    return true;
+                    status = true;
+                    return status;
                 } else {
-                    addHelp(currRoot.getLeft(), person);
+                    addHelp(currRoot.getLeft(), person, status);
                 }
-            } else {
+            } else if (value > 0) {
                 if (currRoot.getRight() == null) {
                     currRoot.setright(new BSTNode(null, null, person));
                     this.nelems++;
-                    return true;
+                    status = true;
+                    return status;
                 } else {
-                    addHelp(currRoot.getRight(), person);
+                    addHelp(currRoot.getRight(), person, status);
                 }
+            } else { // duplicate
+                System.out.println("Duplicate");
+                return status;
             }
-            return false;
+            return status == false;
         }
 
         // use this for lookupContact, uses DFS
@@ -149,7 +151,7 @@ public class BST<T extends Comparable<? super T>> {
             stack.push(this.getRoot());
             while (!stack.isEmpty()) {
                 BSTNode currentP = stack.pop();
-                if (currentP.getName().equalsIgnoreCase(person.name)) {
+                if (currentP.getName().equals(person.name)) {
                     return currentP.person;
                 } else {
                     if (currentP.getLeft() != null) {
@@ -166,6 +168,11 @@ public class BST<T extends Comparable<? super T>> {
         public Person[] getPersonByRange(BSTNode currNode, Person startP, Person endP) {
             LinkedList holdList = new LinkedList<Person>();
             getRangeHelper(currNode, holdList, startP, endP);
+            if (holdList.size() == 1) {
+                Person[] output = new Person[] {(Person) holdList.get(0)};
+            } else if (holdList.size() < 1) {
+                Person[] output = new Person[]{};
+            }
             Person[] output = new Person[holdList.size() - 1];
             for (int i = 0; i < holdList.size() - 1; i++) {
                 output[i] = (Person) holdList.get(i);
@@ -177,11 +184,11 @@ public class BST<T extends Comparable<? super T>> {
             if (currNode == null) {
                 return;
             }
-            int value1 = startP.getName().compareTo(currNode.getName());
+            int value1 = startP.getName().compareTo(currNode.getName().toLowerCase());
             if (value1 < 0) {
                 getRangeHelper(currNode.getLeft(), outList, startP, endP);
             }
-            int value2 = endP.getName().compareTo(currNode.getName());
+            int value2 = endP.getName().compareTo(currNode.getName().toLowerCase());
             if (value1 <= 0 && value2 >= 0 ) {
                 outList.add(currNode.person);
             }
@@ -222,7 +229,7 @@ public class BST<T extends Comparable<? super T>> {
             currNode.person = minForRight.person;
             //delete min
             currNode.right = deleteHelp(currNode.getRight());
-        } else if (currNode.getRight() == null) {  // node with just left
+        } else if (currNode.getRight() == null && currNode.getLeft() != null) {  // node with just left
             if (currNode.parent == null){
                 this.root = currNode.left;
             } else if (currNode.parent.getLeft() == currNode) {
@@ -230,7 +237,7 @@ public class BST<T extends Comparable<? super T>> {
             } else {
                 currNode.parent.setright(currNode.getLeft());
             }
-        } else if (currNode.getLeft() == null) { // just right
+        } else if (currNode.getLeft() == null && currNode.getRight() != null) { // just right
             if (currNode.parent == null){
                 this.root = currNode.right;
             } else if (currNode.parent.getLeft() == currNode) {
@@ -239,6 +246,11 @@ public class BST<T extends Comparable<? super T>> {
                 currNode.parent.setright(currNode.getRight());
             }
         } else { // leaf nodes
+            if (currNode.parent.getRight() != null) {
+                currNode.parent.right = null;
+            } else if (currNode.parent.getLeft() != null) {
+                currNode.parent.left = null;
+            }
             currNode = null;
         }
         this.nelems--;
