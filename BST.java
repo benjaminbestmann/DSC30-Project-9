@@ -199,74 +199,125 @@ public class BST<T extends Comparable<? super T>> {
             return this.nelems;
         }
 
-        public boolean delete(Person toDelete) {
-            //find the node first
-            Stack<BSTNode> stack = new Stack<>();
-            stack.push(this.getRoot());
-            while (!stack.isEmpty()) {
-                BSTNode currentP = stack.pop();
-                if (currentP.getName().equals(toDelete.name)) {
-                    //delete it now
-                    deleteHelp(currentP);
-                    return true;
+        public boolean delete(Person toDel) {
+            BSTNode par = null;
+            BSTNode current = this.root;
+            while (current != null) {
+                int value = current.person.getName().compareTo(toDel.getName());
+                if (current.getName().equals(toDel.name)) {
+                    if (current.getLeft() == null && current.getRight() == null) { // leaf node
+                        if (par == null) {
+                            this.root = null;
+                        } else if (par.left == current) {
+                            par.left = null;
+                        } else {
+                            par.right = null;
+                        }
+                    } else if (current.right == null && current.left != null) {
+                        if (par == null) {
+                            this.root = current.left;
+                        } else if (par.left == current) {
+                            par.left = current.left;
+                        } else {
+                            par.right = current.left;
+                        }
+                    } else if (current.left == null && current.right != null) {
+                        if (par == null) {
+                            this.root = current.right;
+                        } else if (par.left == current) {
+                            par.left = current.right;
+                        } else {
+                            par.right = current.right;
+                        }
+                    } else { // two child nodes
+                        BSTNode successor = current.right;
+                        while (successor.left != null) {
+                            successor = successor.left;
+                        }
+                        Person temp = successor.person; // copy of the data
+                        delete(successor.person);
+                        current.person = temp;
+                    }
+                    return true; // found and removed
+                } else if (value < 0) {
+                    par = current;
+                    current = current.right;
                 } else {
-                    if (currentP.getLeft() != null) {
-                        stack.push(currentP.getLeft());
-                    }
-                    if (currentP.getRight() != null) {
-                        stack.push(currentP.getRight());
-                    }
+                    par = current;
+                    current = current.left;
                 }
             }
-            return false;
+            return false; //not found
         }
-    private BSTNode deleteHelp(BSTNode currNode) {
-//         node with 2 kids
-        if (currNode.left != null && currNode.getRight() != null) {
-            BSTNode temp = currNode;
-            BSTNode minForRight = minVal(temp.getRight());
-            //replace current node with min node from right
-            currNode.person = minForRight.person;
-            //delete min
-            currNode.right = deleteHelp(currNode.getRight());
-        } else if (currNode.getRight() == null && currNode.getLeft() != null) {  // node with just left
-            if (currNode.parent == null){
-                this.root = currNode.left;
-            } else if (currNode.parent.getLeft() == currNode) {
-                currNode.parent.setleft(currNode.getLeft());
-            } else {
-                currNode.parent.setright(currNode.getLeft());
-            }
-        } else if (currNode.getLeft() == null && currNode.getRight() != null) { // just right
-            if (currNode.parent == null){
-                this.root = currNode.right;
-            } else if (currNode.parent.getLeft() == currNode) {
-                currNode.parent.setleft(currNode.getRight());
-            } else {
-                currNode.parent.setright(currNode.getRight());
-            }
-        } else { // leaf nodes
-            if (currNode.parent.getRight() != null) {
-                currNode.parent.right = null;
-            } else if (currNode.parent.getLeft() != null) {
-                currNode.parent.left = null;
-            }
-            currNode = null;
-        }
-        this.nelems--;
-        return currNode;
-    }
 
-    private BSTNode minVal(BSTNode newCurrRoot) {
-        while (newCurrRoot.getLeft() !=  null) {
-            newCurrRoot = newCurrRoot.getLeft();
-        }
-        return newCurrRoot;
-    }
+//        public boolean delete(Person toDelete) {
+//            //find the node first
+//            Stack<BSTNode> stack = new Stack<>();
+//            stack.push(this.getRoot());
+//            while (!stack.isEmpty()) {
+//                BSTNode currentP = stack.pop();
+//                if (currentP.getName().equals(toDelete.name)) {
+//                    //delete it now
+//                    deleteHelp(currentP);
+//                    return true;
+//                } else {
+//                    if (currentP.getLeft() != null) {
+//                        stack.push(currentP.getLeft());
+//                    }
+//                    if (currentP.getRight() != null) {
+//                        stack.push(currentP.getRight());
+//                    }
+//                }
+//            }
+//            return false;
+//        }
+//    private BSTNode deleteHelp(BSTNode currNode) {
+////         node with 2 kids
+//        if (currNode.left != null && currNode.getRight() != null) {
+//            BSTNode temp = currNode;
+//            BSTNode minForRight = minVal(temp.getRight());
+//            //replace current node with min node from right
+//            currNode.person = minForRight.person;
+//            //delete min
+//            currNode.right = deleteHelp(currNode.getRight());
+//        } else if (currNode.getRight() == null && currNode.getLeft() != null) {  // node with just left
+//            if (currNode.parent == null){
+//                this.root = currNode.left;
+//            } else if (currNode.parent.getLeft() == currNode) {
+//                currNode.parent.setleft(currNode.getLeft());
+//            } else {
+//                currNode.parent.setright(currNode.getLeft());
+//            }
+//        } else if (currNode.getLeft() == null && currNode.getRight() != null) { // just right
+//            if (currNode.parent == null){
+//                this.root = currNode.right;
+//            } else if (currNode.parent.getLeft() == currNode) {
+//                currNode.parent.setleft(currNode.getRight());
+//            } else {
+//                currNode.parent.setright(currNode.getRight());
+//            }
+//        } else { // leaf nodes
+//            if (currNode.parent.getRight() != null) {
+//                currNode.parent.right = null;
+//            } else if (currNode.parent.getLeft() != null) {
+//                currNode.parent.left = null;
+//            }
+//            currNode = null;
+//        }
+//        this.nelems--;
+//        return currNode;
+//    }
+//
+//    private BSTNode minVal(BSTNode newCurrRoot) {
+//        while (newCurrRoot.getLeft() !=  null) {
+//            newCurrRoot = newCurrRoot.getLeft();
+//        }
+//        return newCurrRoot;
+//    }
     public String[] fetchAllNames() {
         LinkedList<Person> temp = new LinkedList<>();
-        String[] output = new String[this.nelems];
         fetchAllHelper(temp, this.root);
+        String[] output = new String[temp.size()];
         for (int i = 0; i < temp.size(); i++) {
             output[i] = temp.get(i).getName();
         }

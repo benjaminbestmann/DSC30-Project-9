@@ -7,17 +7,17 @@ public class ContactList {
 
 
     public boolean createContact(Person person) {
-        return this.contactList.insert(person);
+        return contactList.insert(person);
     }
 
     public boolean lookupContact(String name) {
         Person temp = new Person(name, new ArrayList<>());
-        return this.contactList.getPerson(temp) != null;
+        return contactList.getPerson(temp) != null;
     }
 
     public Person getContact(String name) {
         Person temp = new Person(name.toLowerCase(), new ArrayList<>());
-        return this.contactList.getPerson(temp);
+        return contactList.getPerson(temp);
     }
 
     public Person[] getContactByRange(String start, String end) {
@@ -29,13 +29,13 @@ public class ContactList {
         }
         Person startP = new Person(start.toLowerCase(), new ArrayList<>());
         Person endP = new Person(end.toLowerCase(), new ArrayList<>());
-        return this.contactList.getPersonByRange(this.contactList.getRoot(), startP, endP);
+        return contactList.getPersonByRange(contactList.getRoot(), startP, endP);
         // use DFS on the tree and make sure to return once you've found the end bc it's exclusive
     }
 
     public boolean deleteContact(String name) {
         Person temp = new Person(name, new ArrayList<>());
-        return this.contactList.delete(temp);
+        return contactList.delete(temp);
     }
 
     public int size() {
@@ -43,10 +43,10 @@ public class ContactList {
     }
 
     public String[] fetchAllNames() {
-        return this.contactList.fetchAllNames();
+        return contactList.fetchAllNames();
     }
 
     public String[] fetchAllPhoneNumbers() {
-        return this.contactList.fetchAllNumbers();
+        return contactList.fetchAllNumbers();
     }
 }
