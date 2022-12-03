@@ -39,7 +39,7 @@ public class ContactList {
     }
 
     public int size() {
-        return this.contactList.size();
+        return contactList.size();
     }
 
     public String[] fetchAllNames() {

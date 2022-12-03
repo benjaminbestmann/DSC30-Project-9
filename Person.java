@@ -31,11 +31,11 @@ public class Person {
     }
 
     public boolean deletePhoneNumber(String pn) {
-        if (this.numbersList.contains(pn)) {
-            if (this.numbersList.size() <= 1) {
+        if (numbersList.contains(pn)) {
+            if (numbersList.size() <= 1) {
                 throw new IllegalArgumentException();
             } else {
-                this.numbersList.remove(pn);
+                numbersList.remove(pn);
                 return true;
             }
         } else {

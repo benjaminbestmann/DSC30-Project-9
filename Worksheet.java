@@ -127,32 +127,43 @@ public class Worksheet {
     }
 
     public static void main(String[] args) {
-        ArrayList<BNode> nodes = q2EncodeTree();
-        System.out.println("number of nodes  = "+nodes.size());
-        for(int i = nodes.size()-1;i>=0;i--){
-            List<BNode> children = nodes.get(i).children;
-            String output = "";
-            output+="current data = "+nodes.get(i).data+"\n";
-            output+="children = ";
-            if(children.size()==0){
-                output+="None";
-            }
-            for(int j=0;j<children.size();j++){
-                output+=children.get(j).data;
-            }
-            System.out.println(output);
-            System.out.println("____________________");
-        }
-//        ArrayList<String> testArr = new ArrayList<>();
-//        testArr.add("8587748778");
-//        ArrayList<String> testArr2 = new ArrayList<>();
-//        testArr2.add("9112456711");
-//        ArrayList<String> testArr3 = new ArrayList<>();
-//        testArr3.add("911");
-//        testArr3.add("21");
-//        testArr3.add("223445");
-//        Person myTestPerson = new Person("Arjun", testArr);
-//        Person Benny = new Person("Benny", testArr3);
+//        ArrayList<BNode> nodes = q2EncodeTree();
+//        System.out.println("number of nodes  = "+nodes.size());
+//        for(int i = nodes.size()-1;i>=0;i--){
+//            List<BNode> children = nodes.get(i).children;
+//            String output = "";
+//            output+="current data = "+nodes.get(i).data+"\n";
+//            output+="children = ";
+//            if(children.size()==0){
+//                output+="None";
+//            }
+//            for(int j=0;j<children.size();j++){
+//                output+=children.get(j).data;
+//            }
+//            System.out.println(output);
+//            System.out.println("____________________");
+//        }
+        ArrayList<String> testArr = new ArrayList<>();
+        testArr.add("8587748778");
+        ArrayList<String> testArr2 = new ArrayList<>();
+        testArr2.add("9112456711");
+        ArrayList<String> testArr3 = new ArrayList<>();
+        testArr3.add("911");
+        testArr3.add("21");
+        testArr3.add("223445");
+        testArr3.add("11111");
+        testArr3.add("22222");
+        testArr3.add("33333");
+        Person Arjun = new Person("Arjun", testArr);
+        Person Benny = new Person("Benny", testArr3);
+        ContactList firstContact = new ContactList();
+        firstContact.createContact(Arjun);
+        firstContact.createContact(Benny);
+        System.out.println(Arrays.toString(Benny.getPhoneNumbers().toArray()));
+        System.out.println(Benny.deletePhoneNumber("911"));
+        System.out.println(Benny.deletePhoneNumber("21"));
+        System.out.println(Benny.deletePhoneNumber("111110"));
+        System.out.println(Arrays.toString(Benny.getPhoneNumbers().toArray()));
 //        System.out.println(Arrays.toString(Benny.getPhoneNumbers().toArray()));
 //        System.out.println(Benny.deletePhoneNumber("911"));
 //        System.out.println(Arrays.toString(Benny.getPhoneNumbers().toArray()));
