@@ -102,48 +102,88 @@ public class BST<T extends Comparable<? super T>> {
                 return this.root;
             }
         }
-
         public boolean insert(Person person) {
             if (person == null) {
                 throw new NullPointerException();
             }
-            BSTNode newNode = new BSTNode(null, null, person);
+            BSTNode current = new BSTNode(null, null, person);
             if (this.root == null) {
-                this.root = newNode;
+                this.root = current;
                 this.nelems++;
                 return true;
             }
-            return addHelp(this.root, person, false);
+            int temp = this.nelems;
+            addHelp(this.root, current);
+            return this.nelems > temp; // should be true if added, false if duplicate
         }
-        public boolean addHelp(BSTNode currRoot, Person person, boolean status) {
-            int value = person.name.compareTo(currRoot.getName());
-//            if (value == 0) { // Duplicate
-//                status = false;
-//            }
-            if (value < 0) {
-                if (currRoot.getLeft() == null) {
-                    currRoot.setleft(new BSTNode(null, null, person));
-                    this.nelems++;
-                    status = true;
-                    return status;
+
+        public boolean addHelp(BSTNode current, BSTNode toAdd) {
+            while (current != null) {
+                int value = current.person.getName().compareTo(toAdd.getName());
+                if (value < 0) {
+                    if (current.left == null) {
+                        current.left = toAdd;
+                        this.nelems++;
+                        current = null;
+                    } else {
+                        current = current.left;
+                    }
+                } else if (value > 0) {
+                    if (current.right == null) {
+                        current.right = toAdd;
+                        this.nelems++;
+                        current = null;
+                    } else {
+                        current = current.right;
+                    }
                 } else {
-                    addHelp(currRoot.getLeft(), person, status);
+                    break;
                 }
-            } else if (value > 0) {
-                if (currRoot.getRight() == null) {
-                    currRoot.setright(new BSTNode(null, null, person));
-                    this.nelems++;
-                    status = true;
-                    return status;
-                } else {
-                    addHelp(currRoot.getRight(), person, status);
-                }
-            } else { // duplicate
-                System.out.println("Duplicate");
-                return status;
             }
-            return status == false;
+            return true;
         }
+
+//        public boolean insert(Person person) {
+//            if (person == null) {
+//                throw new NullPointerException();
+//            }
+//            BSTNode newNode = new BSTNode(null, null, person);
+//            if (this.root == null) {
+//                this.root = newNode;
+//                this.nelems++;
+//                return true;
+//            }
+//            return addHelp(this.root, person, false);
+//        }
+//        public boolean addHelp(BSTNode currRoot, Person person, boolean status) {
+//            int value = person.name.compareTo(currRoot.getName());
+////            if (value == 0) { // Duplicate
+////                status = false;
+////            }
+//            if (value < 0) {
+//                if (currRoot.getLeft() == null) {
+//                    currRoot.setleft(new BSTNode(null, null, person));
+//                    this.nelems++;
+//                    status = true;
+//                    return status;
+//                } else {
+//                    addHelp(currRoot.getLeft(), person, status);
+//                }
+//            } else if (value > 0) {
+//                if (currRoot.getRight() == null) {
+//                    currRoot.setright(new BSTNode(null, null, person));
+//                    this.nelems++;
+//                    status = true;
+//                    return status;
+//                } else {
+//                    addHelp(currRoot.getRight(), person, status);
+//                }
+//            } else { // duplicate
+//                System.out.println("Duplicate");
+//                return status;
+//            }
+//            return status == false;
+//        }
 
         // use this for lookupContact, uses DFS
         public Person getPerson(Person person) {
@@ -238,13 +278,14 @@ public class BST<T extends Comparable<? super T>> {
                         delete(successor.person);
                         current.person = temp;
                     }
+                    this.nelems--;
                     return true; // found and removed
                 } else if (value < 0) {
                     par = current;
-                    current = current.right;
+                    current = current.left;
                 } else {
                     par = current;
-                    current = current.left;
+                    current = current.right;
                 }
             }
             return false; //not found
